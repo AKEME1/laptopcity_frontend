@@ -5,7 +5,7 @@ import ProductUploadForm from './ProductUploadForm';
 import Analytics from './Analytics';
 const Dashboard: React.FC = () => {
 
-  const [dashboard,setDashboard]=useState("")
+  const [dashboard,setDashboard]=useState("ProductUploadForm")
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 h-auto bg-[#44AA99] text-white">

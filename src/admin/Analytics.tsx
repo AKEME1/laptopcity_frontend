@@ -1,9 +1,16 @@
 import React from 'react'
-
+import ProductCount from './Analytics/ProductCount'
+import ProductSalesPieChart from './Analytics/ProductSalse'
 const Analytics = () => {
   return (
-    <div className='w-full border border-b'>
-        comming soon
+    <div className='flex-col '>
+        <div className='flex justify-between'>
+        <ProductSalesPieChart/>
+         <ProductSalesPieChart/>
+        </div>
+        <div>
+        <ProductCount/>
+        </div>
     </div>
   )
 }

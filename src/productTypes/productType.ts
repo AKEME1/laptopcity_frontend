@@ -105,3 +105,27 @@ export interface createProduct {
   weight: string;
   images: string[]; // Handle multiple image uploads
 }
+
+export interface ProductModel {
+  model: string;
+  stock: number;
+}
+
+export interface ProductCountData {
+  brand: string;
+  models: ProductModel[];
+}
+
+export type SalesData = {
+  _id: {
+    brand: string;
+    model: string;
+  };
+  totalBookings: number;
+}[];
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}

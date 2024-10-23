@@ -1,18 +1,31 @@
-import { useProductContext } from '../context/productContext'
-import { useNavigate } from 'react-router-dom';
-
+import { useProductContext } from '../context/productContext';
+import { useState, useEffect } from 'react';
+import { UserType } from '../productTypes/productType';
 import { Link } from 'react-router-dom';
-const Navbar = () => {
-  const {isOpen,userData,setUserData}=useProductContext()
 
-  
+const Navbar = () => {
+  const { isOpen } = useProductContext();
+  const [userData, setUserData] = useState<UserType | null>(null);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    const data = localStorage.getItem('userData');
+    if (data) {
+      setUserData(JSON.parse(data));
+    }
+  }, []);
+
   return (
-    <div className={`bg-gradient-to-r from-custom-green to-custom-blue ${isOpen?'blur-sm':""}`}>
+    <div className={`bg-gradient-to-r from-custom-green to-custom-blue ${isOpen ? 'blur-sm' : ""}`}>
       <div className="flex justify-between items-center max-w-[1200px] mx-auto p-2">
         
         {/* Logo Section */}
         <div>
-          <Link to={'/'} className="font-space-grotesk cursor-pointer font-extrabold text-[27px]">Laptopcity</Link>
+          <Link to={'/'} className="font-space-grotesk cursor-pointer font-extrabold text-[27px] text-white">Laptopcity</Link>
         </div>
         
         {/* Icon Section */}
@@ -21,22 +34,40 @@ const Navbar = () => {
         </div>
         
         {/* Navigation Links */}
-        <div className="flex">
+        <div className='flex justify-between items-center'>
+        <div className={`flex ${userData?'mr-4':'mr-2'} justify-between items-center`}>
+
           <div className="ml-1 cursor-pointer">
-            <Link to='/Signup' className="font-space-grotesk font-medium hover:font-bold text-[18px] ">
-          {
-         userData.name?userData.name.split("")[0]:'Signup'
-          }
+            <Link to='/Signup' className="font-space-grotesk font-medium hover:font-bold text-[18px] text-white">
+              {userData?.name ? userData.name.split(" ")[0] : 'Signup'}
             </Link>
           </div>
-          <div className="ml-1 cursor-pointer">
-            <Link to='/Login' className="font-space-grotesk font-medium hover:font-bold text-[18px]">Login</Link>
+
+ {/* Cart Icon or Profile Icon */}
+ {
+  userData&&
+<div>
+<img className="ml-1 w-[40px] h-[40px] border rounded-[20px]" src={userData?.photo} alt="" />
+</div>
+}
+</div>
+ <div className="ml-1 cursor-pointer mr-3">
+            {
+              userData ? 
+              <p onClick={handleLogout} className="font-space-grotesk font-medium hover:font-bold text-[18px] text-white">Logout</p> :  
+              <Link to='/Login' className="font-space-grotesk font-medium hover:font-bold text-[18px] text-white">
+                Login
+              </Link>
+            }
+          </div>
+         <div className=''>
+            {userData?.role === "admin" ? 
+              <Link to={"/admin"} className='font-space-grotesk border rounded-md p-1 bg-pink-400 font-medium hover:font-bold text-[18px] text-white'>
+                Admin
+              </Link> 
+              : ''}
           </div>
           
-          {/* Cart Icon or Profile Icon */}
-          <div className="ml-1 w-[24px] h-[24px] border rounded-[12px]">
-            {/* Add icon or image inside this div if needed */}
-          </div>
         </div>
       </div>
     </div>

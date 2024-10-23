@@ -26,10 +26,12 @@ console.log(email,password)
           'Content-Type': 'application/json', // Correct content type
         },
       });
-
+  
       if (loginResponse.data.userData) {
-        const token=loginResponse.data.userData.token
+        const token=loginResponse.data.token
+        const User=loginResponse.data.userData.user
         localStorage.setItem('jwt', token);
+        localStorage.setItem('userData', JSON.stringify(User))
         navigate('/'); // Navigate to the home page on successful login
       }
     } catch (error) {
