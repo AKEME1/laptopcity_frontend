@@ -4,26 +4,29 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { ProductCountData } from '../../productTypes/productType'; // Adjusted import path
 import { ProductCountByBrand } from '../../requestResponsehandler/analytics';
+import Skeleton from 'react-loading-skeleton';
+
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const ProductCount: React.FC = () => {
+  
   const [chartData, setChartData] = useState<any | null>(null); 
   const { data, isLoading, isError } = useQuery<ProductCountData[]>('ProductCount', ProductCountByBrand); 
 
   useEffect(() => {
     if (data) {
       // Group models by brand
-      const brands = data.map(item => item.brand);
-      const allModels = [...new Set(data.flatMap(item => item.models.map(model => model.model)))];
+      const brands = data?.map(item => item.brand);
+      const allModels = [...new Set(data?.flatMap(item => item.models?.map(model => model.model)))];
 
-      const datasets = brands.map(brandItem => {
+      const datasets = brands?.map(brandItem => {
         return {
           label: brandItem,
-          data: allModels.map(model => {
-            const brandData = data.find(item => item.brand === brandItem);
-            const modelData = brandData?.models.find(m => m.model === model);
+          data: allModels?.map(model => {
+            const brandData = data?.find(item => item.brand === brandItem);
+            const modelData = brandData?.models?.find(m => m.model === model);
             return modelData ? modelData.stock : 0;
           }),
           backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
@@ -39,7 +42,7 @@ const ProductCount: React.FC = () => {
     }
   }, [data]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><Skeleton count={10} /></div>;
   if (isError) return <div>Error loading data...</div>;
 
   return (

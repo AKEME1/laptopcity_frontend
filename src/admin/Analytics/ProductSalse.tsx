@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 import { productSalse } from '../../requestResponsehandler/analytics'; // Adjust path
 import { SalesData } from '../../productTypes/productType';
-
+import Skeleton from 'react-loading-skeleton';
 // Register Chart.js components for Pie chart
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
@@ -14,8 +14,8 @@ const ProductSalesPieChart: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      const labels = data.map(item => `${item._id.brand} ${item._id.model}`);
-      const dataValues = data.map(item => item.totalBookings);
+      const labels = data?.map(item => `${item._id.brand} ${item._id.model}`);
+      const dataValues = data?.map(item => item.totalBookings);
 
       const colors = [
         'rgba(255, 99, 132, 0.5)', // Red
@@ -27,7 +27,7 @@ const ProductSalesPieChart: React.FC = () => {
       ];
 
       const backgroundColors = colors.slice(0, data.length);
-      const borderColors = colors.slice(0, data.length).map(color => color.replace('0.5', '1'));
+      const borderColors = colors.slice(0, data.length)?.map(color => color.replace('0.5', '1'));
 
       setChartData({
         labels,
@@ -44,7 +44,7 @@ const ProductSalesPieChart: React.FC = () => {
     }
   }, [data]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><Skeleton count={10} /></div>;
   if (isError) return <div>Error loading data...</div>;
 
   return (

@@ -1,6 +1,6 @@
-import React from 'react'
-import ProductCount from './Analytics/ProductCount'
-import ProductSalesPieChart from './Analytics/ProductSalse'
+
+import ProductCount from './ProductCount'
+import ProductSalesPieChart from './ProductSalse'
 const Analytics = () => {
   return (
     <div className='flex-col '>
