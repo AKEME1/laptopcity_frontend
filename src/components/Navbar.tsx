@@ -4,7 +4,7 @@ import { UserType } from '../productTypes/productType';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const { isOpen } = useProductContext();
+  const {setIsOpen, isOpen } = useProductContext();
   const [userData, setUserData] = useState<UserType | null>(null);
 
   const handleLogout = () => {
@@ -20,7 +20,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className={`bg-gradient-to-r from-custom-green to-custom-blue ${isOpen ? 'blur-sm' : ""}`}>
+    <div onClick={()=>setIsOpen(false)} className={`bg-gradient-to-r from-custom-green to-custom-blue ${isOpen ? 'blur-sm cursor-pointer' : ""}`}>
       <div className="flex justify-between items-center max-w-[1200px] mx-auto p-2">
         
         {/* Logo Section */}

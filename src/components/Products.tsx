@@ -16,7 +16,8 @@ const Products = () => {
   // Handler for opening product detail
   const handleProductClick = (id: number) => {
     setSelectedProductID(id);
-    setIsOpen(true);
+    isOpen?setIsOpen(false):setIsOpen(true)
+    
   };
 
   // Fetch products with pagination
@@ -31,6 +32,7 @@ const Products = () => {
     },
   });
 
+ 
   // Pagination handlers
  
   if (isLoading) return <div><Skeleton count={10} /></div>;
@@ -38,7 +40,7 @@ const Products = () => {
 
   return (
     <>
-      <div className={`max-w-[1200px] mx-auto cursor-pointer ${isOpen ? 'blur-sm' : ""}`}>
+      <div  className={`max-w-[1200px] mx-auto cursor-pointer ${isOpen ? 'blur-sm' : ""}`}>
         {status === "success" && productData && (
           <div className="grid grid-cols-5">
             {productData?.map((product: Product) => (
