@@ -1,13 +1,13 @@
-import { brandData } from "../Data/dataFilter"; // Assuming you only need brandData
+import { brandData } from "../../Data/dataFilter"; // Assuming you only need brandData
 import axios from "axios";
 import { useMutation } from "react-query";
-import { osData } from "../Data/dataFilter"; // Importing OS data if needed in the future
+import { osData } from "../../Data/dataFilter"; // Importing OS data if needed in the future
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useState } from "react";
-import { specificationDatas } from "../Data/dataFilter";
-import { CreatingProduct } from "../productTypes/productType";
-import { createProduct } from "../requestResponsehandler/filterProduct";
+import { specificationDatas } from "../../Data/dataFilter";
+import { CreatingProduct } from "../../productTypes/productType";
+import { createProduct } from "../../requestResponsehandler/filterProduct";
 
 
 const ProductUploadForm = () => {

@@ -105,3 +105,32 @@ export interface createProduct {
   weight: string;
   images: string[]; // Handle multiple image uploads
 }
+
+export interface ProductModel {
+  model: string;
+  stock: number;
+}
+
+export interface ProductCountData {
+  brand: string;
+  models: ProductModel[];
+}
+
+export type SalesData = {
+  _id: {
+    brand: string;
+    model: string;
+  };
+  totalBookings: number;
+}[];
+
+
+export interface UserAdminType {
+  _id: number; 
+  active:boolean
+  name: string;         // Name of the user
+  email: string;        // Email of the user
+  role: 'user' | 'admin'; // Role can be either 'user' or 'admin' (if there's only these two roles)
+  photo: string;        // URL of the user's profile photo
+     // Whether the user is active
+}

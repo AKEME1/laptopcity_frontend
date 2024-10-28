@@ -58,12 +58,13 @@ const navigate=useNavigate()
   },
   });
   console.log(`we are here`)
-console.log(userResponse.data.token)
-console.log(userResponse.data.userData.user)
+
+const User=userResponse.data.userData.user
 if(userResponse.data.userData){
 const token=userResponse.data.token
 localStorage.clear()
 localStorage.setItem('jwt', token);
+localStorage.setItem('userData', JSON.stringify(User))
 
 setUserData(userResponse.data.userData.user)  
 console.log("user data:",userData)
