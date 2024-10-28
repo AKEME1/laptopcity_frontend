@@ -11,7 +11,7 @@ const handleClose=()=>{
 }
 
   return (
-    <div onClick={()=>handleClose()}  className={`${isOpen?'cursor-pointer':""}`}>
+    <div   className={`${isOpen?'cursor-pointer':""}`}>
       <Navbar/>
       <Hero/>
       <FilterByName/>
