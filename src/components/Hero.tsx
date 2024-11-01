@@ -23,7 +23,7 @@ const Hero = () => {
 const handleFetchByModel= async(model:string)=>{
 const {data}= await axios.get(`http://localhost:8080/api/v1/products/partialSearch?model=${model}`)
 setProductData(data.data.partialDeta)
-console.log(data)
+
 
 }
 

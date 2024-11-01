@@ -39,7 +39,7 @@ const Navbar = () => {
 
           <div className="ml-1 cursor-pointer">
             <Link to='/Signup' className="font-space-grotesk font-medium hover:font-bold text-[18px] text-white">
-              {userData?.name ? userData.name.split(" ")[0] : 'Signup'}
+              {userData?.name ? userData.name.split(" ")[0] : ''}
             </Link>
           </div>
 

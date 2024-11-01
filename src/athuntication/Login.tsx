@@ -6,14 +6,14 @@ const Login: React.FC = () => {
   // Initial states for email and password
   const [email, setEmail] = useState<string>(""); 
   const [password, setPassword] = useState<string>("");
-
+  const [isLoading, setIsLoading] = useState(false);
 console.log(email,password)
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+setIsLoading(true)
     // Body object should reflect current state values
     const body = {
       email: email,
@@ -32,6 +32,7 @@ console.log(email,password)
         const User=loginResponse.data.userData.user
         localStorage.setItem('jwt', token);
         localStorage.setItem('userData', JSON.stringify(User))
+        setIsLoading(false)
         navigate('/'); // Navigate to the home page on successful login
       }
     } catch (error) {
@@ -84,7 +85,7 @@ console.log(email,password)
             {/* Login Button */}
             <button
               type="submit"
-              className="flex items-center cursor-pointer justify-center w-full py-1 mt-3 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className={`flex items-center cursor-pointer justify-center w-full py-1 mt-3 font-semibold text-white rounded-md ${isLoading? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600'}  focus:outline-none focus:ring-2 ${isLoading?'':'hover:bg-blue-500'} focus:ring-offset-2 ${isLoading?'focus:ring-gray-400':'focus:ring-blue-500'} `}
             >
               <span className="mr-2">Login</span>
             </button>
