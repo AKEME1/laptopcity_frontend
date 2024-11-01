@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import { filterById } from '../requestResponsehandler/filterProduct';
 import axios from 'axios';
 import Skeleton from 'react-loading-skeleton';
 import { useProductContext } from '../context/productContext';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { Spin } from "antd";
+
+
+
+import { notification } from 'antd';
+
+
 
 const ProductDetail: React.FC<{ id: number }> = ({ id }) => {
-  const { setIsOpen,isOpen } = useProductContext();
-  const token = localStorage.getItem('jwt');
+
+const [isDesable,setIsDesable]=useState(false)
+const { setIsOpen,isOpen } = useProductContext();
+const navigate=useNavigate()
+const token = localStorage.getItem('jwt');
 
   const handleCheckOut = async (productId: number) => {
-    console.log('Initiating checkout for product ID:', productId);
+  
     try {
+      setIsDesable(true)
       const response = await axios.get(
         `http://localhost:8080/api/v1/bookings/checkout-session/${productId}`,
         {
@@ -23,21 +35,40 @@ const ProductDetail: React.FC<{ id: number }> = ({ id }) => {
           withCredentials: true,
         }
       );
+     
       const URL = response.data.session.url;
       URL
         ? (window.location.href = URL)
         : console.error('Redirect URL not found in response:', response.data);
-    } catch (error) {
-      console.error('Checkout error:', error);
+        setIsDesable(false)
+    } catch (error:any) {
+if(error.response.data.message==="jwt malformed"){
+
+   notification.info({
+    message: 'Sign Up Required',
+    description: 'Before you can make a purchase, please sign up first.',
+    placement: 'topRight',
+    duration: 10, // Duration in seconds
+  });
+  setIsOpen(false)
+navigate('/Signup')
+}else{
+   notification.error({
+    message: 'Network Error',
+    description: 'There was a problem connecting to the network. Please check your internet connection and try again.',
+    duration: 5, // Notification will disappear after 5 seconds
+        });
+}
+      
     }
   };
-console.log(`we are here ${isOpen}`)
+
   const { data, isLoading, status, isError } = useQuery({
     queryKey: ['productDetail', id],
     queryFn: () => filterById(id),
     enabled: !!id,
   });
-console.log(data)
+
   if (isLoading) return <div><Skeleton /></div>;
   if (isError) return <div>Error occurred while fetching product details.</div>;
 
@@ -150,8 +181,10 @@ console.log(data)
                 Price: ${data.price}
               </div>
               <button
+              disabled={isDesable}
+              
                 onClick={() => handleCheckOut(id)}
-                className="flex items-center cursor-pointer justify-center w-full py-2 mt-6 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className={`flex items-center cursor-pointer justify-center w-full py-2 mt-6 font-semibold text-white ${isDesable?'bg-gray-300 cursor-not-allowed':"bg-blue-600"}  rounded-md ${isDesable?'':'hover:bg-blue-500'}  focus:outline-none focus:ring-2 focus:ring-offset-2 ${isDesable?'':'focus:ring-blue-500'} `}
               >
                 <span className="mr-2">BUY</span>
               </button>
@@ -159,6 +192,7 @@ console.log(data)
           </div>
         </>
       )}
+      
     </div>
    
   );
